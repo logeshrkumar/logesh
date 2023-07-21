@@ -4,17 +4,30 @@ public class Main {
 	
 	static Scanner sc = new Scanner(System.in);
 	static Map<String, User> userDetails = new HashMap<String, User>();
+	static int bufferSize = 3; // Default buffer size
 	
 	public static void main(String[] args) {
 		System.out.println("Welcome\n");
+		getBufferSize();
 		getOptionFromUser();
-		
-		
+	}
+	
+	public static void getBufferSize() {
+		try {
+			System.out.println("Enter bufferSize (value should be greater than \"0\")\n");
+			bufferSize = sc.nextInt();
+			if(bufferSize <= 0) {
+				getBufferSize();
+			}
+		}catch(Exception e) {
+			System.out.println("Exception while getting buffer size");
+			getBufferSize();
+		}
 	}
 	
 	public static User createUser(String name, ArrayList songList) {
 		if(songList == null) {
-			songList = new ArrayList<String>(3); // Change the value to increase buffer size. Current buffer size is '3'.
+			songList = new ArrayList<String>(bufferSize); // Array buffer of size 'N'
 		}
 		if(name != null && songList != null) {
 			return new User(name, songList);
@@ -23,7 +36,7 @@ public class Main {
 	}
 	
 	public static void getOptionFromUser() {
-		System.out.println("Enter \"1\" to Add a new user");
+		System.out.println("\nEnter \"1\" to Add a new user");
 		System.out.println("Enter \"2\" to View the song list of the user");
 		System.out.println("");
 		int actionID = -1;
@@ -47,7 +60,7 @@ public class Main {
 		    	showAllUsersSongList();
 		    	break;
 		    default: 
-		    	System.out.println("Please Enter a valid input");
+		    	System.out.println("\nPlease Enter a valid input\n");
 		    	getOptionFromUser();
 		}
 		
@@ -55,11 +68,11 @@ public class Main {
 	
 	public static void setNewUser() {
 		try {
-			System.out.println("Enter a new username:\n");
+			System.out.println("\nEnter a new username:\n");
 			String userName = sc.next().toLowerCase();
 			boolean userCreated = false;
 			if(userDetails.containsKey(userName)) {
-				System.out.println("Sorry this username is already taken, Please try a different name");
+				System.out.println("\nSorry this username is already taken, Please try a different name\n");
 				setNewUser();
 			} else {
 				User newUser = createUser(userName, null);
@@ -71,19 +84,19 @@ public class Main {
 			}
 			
 		}catch(Exception e) {
-			System.out.println("Exception while getting username: "+e);
+			System.out.println("\nException while getting username: "+e);
 		}	
 	}
 	
 	public static void getSongToPlay(String userName) {
 		try {
-			System.out.println("Enter a song to play");
+			System.out.println("\nEnter a song to play\n");
 			String song = sc.next().toLowerCase();
 			validateAndUpdateSongsToList(userName, song);
 			
 			
 		}catch(Exception e) {
-			System.out.println("Exception while getting song to play: "+e);
+			System.out.println("\nException while getting song to play: "+e+"\n");
 		}
 	}
 	
@@ -93,7 +106,7 @@ public class Main {
 			ArrayList currentUserSongList = currentUser.getSongList();
 			if(currentUserSongList != null && currentUserSongList.size()>0 && !currentUserSongList.contains(song)) {
 				// If the new song is not present just drop the 
-				if(currentUserSongList.size() == 3) {
+				if(currentUserSongList.size() == bufferSize) {
 					currentUserSongList.remove(0);	 // since the size is maximum we have to remove the 1'st one	
 				}
 				currentUserSongList.add(song);
@@ -106,7 +119,7 @@ public class Main {
 			}
 			currentUser.setSongList(currentUserSongList);
 			userDetails.put(userName, currentUser);
-			System.out.println("Song added to list\n");
+			System.out.println("\nSong added to list\n");
 			addAnotherSong(userName);
 			
 		}catch(Exception e) {
@@ -117,7 +130,7 @@ public class Main {
 	public static void showAllUsersSongList() {
 		try {
 			if(userDetails != null && userDetails.size()>0) {
-				System.out.println("Please find every users song list"+ userDetails.size());
+				System.out.println("\nPlease find every users song list"+ userDetails.size());
 				for(String key : userDetails.keySet()) {
 					User user = userDetails.get(key);
 					System.out.println(user.getName()+" "+user.getSongList());
