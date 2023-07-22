@@ -15,7 +15,7 @@ public class Main {
 	public static void getBufferSize() {
 		try {
 			System.out.println("Enter bufferSize (value should be greater than \"0\")\n");
-			bufferSize = sc.nextInt();
+			bufferSize = Integer.parseInt(sc.nextLine());
 			if(bufferSize <= 0) {
 				getBufferSize();
 			}
@@ -25,7 +25,7 @@ public class Main {
 		}
 	}
 	
-	public static User createUser(String name, ArrayList songList) {
+	public static User createUser(String name, ArrayList<String> songList) {
 		if(songList == null) {
 			songList = new ArrayList<String>(bufferSize); // Array buffer of size 'N'
 		}
@@ -41,7 +41,7 @@ public class Main {
 		System.out.println("");
 		int actionID = -1;
 		try {
-			actionID = Integer.parseInt(sc.next());
+			actionID = Integer.parseInt(sc.nextLine());
 		} catch(Exception e) {
 			System.out.println("\nPlease Enter a valid input, Enter either \"1\" (or) \"2\" \n");
 			getOptionFromUser();
@@ -69,7 +69,7 @@ public class Main {
 	public static void setNewUser() {
 		try {
 			System.out.println("\nEnter a new username:\n");
-			String userName = sc.next().toLowerCase();
+			String userName = sc.nextLine().toLowerCase();
 			boolean userCreated = false;
 			if(userDetails.containsKey(userName)) {
 				System.out.println("\nSorry this username is already taken, Please try a different name\n");
@@ -91,7 +91,7 @@ public class Main {
 	public static void getSongToPlay(String userName) {
 		try {
 			System.out.println("\nEnter a song to play\n");
-			String song = sc.next().toLowerCase();
+			String song = sc.nextLine().toLowerCase();
 			validateAndUpdateSongsToList(userName, song);
 			
 			
@@ -103,7 +103,7 @@ public class Main {
 	public static void validateAndUpdateSongsToList(String userName, String song) {
 		try {
 			User currentUser = userDetails.get(userName);
-			ArrayList currentUserSongList = currentUser.getSongList();
+			ArrayList<String> currentUserSongList = currentUser.getSongList();
 			if(currentUserSongList != null && currentUserSongList.size()>0 && !currentUserSongList.contains(song)) {
 				// If the new song is not present just drop the 
 				if(currentUserSongList.size() == bufferSize) {
@@ -150,7 +150,7 @@ public class Main {
 	
 	public static void addAnotherSong(String userName) {
 		System.out.println("Enter another song to add to the list else Type \"No\" to return to main");
-		String nextSong = sc.next().toLowerCase();
+		String nextSong = sc.nextLine().toLowerCase();
 		if(nextSong.equalsIgnoreCase("NO")) {
 			getOptionFromUser();
 		}
