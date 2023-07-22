@@ -59,10 +59,12 @@ To ensure the program runs correctly, follow the above instructions and provide 
 
 ## Sample output images for invalid input cases
 
+#### 1. User should enter either '1' or '2'. When values other than this is entered we show a error message
+![image9](Images/image9.png)
 
-#### 1. We show this error message when no user have been created but trying to view all usernames and song list
+#### 2. We show this error message when no user have been created but trying to view all usernames and song list
 ![image7](Images/image7.png)
 
 
-#### 2. When a username is not available
+#### 3. When a username is not available
 ![image8](Images/image8.png)
